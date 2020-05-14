@@ -1,8 +1,9 @@
 class Cell {
-  constructor(row, col, size) {
+  constructor(row, col, size, num) {
     this.row = row;
     this.col = col;
     this.size = size;
+    this.num = num
 
     this.x = this.col * this.size;
     this.y = this.row * this.size;
@@ -15,7 +16,8 @@ class Cell {
     fill(255);
     rect(this.x, this.y, this.size, this.size);
     textSize(40)
-    text(this.row + '.' + this.col, this.x + this.size/4, this.y + this.size * (2/3))
+    textAlign(CENTER, CENTER)
+    text(this.num, this.x + this.size / 2, this.y + this.size / 2)
   }
 
 }

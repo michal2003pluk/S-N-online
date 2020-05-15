@@ -3,6 +3,7 @@ var columns = 7;
 var asc;
 let path = [];
 var diceRoll;
+let player;
 
 function setup() {
   createCanvas(800, 800)
@@ -54,6 +55,8 @@ function setup() {
     //then released outside this won't work.
     alert("Dice rolled")
   }
+
+  player = new Player(3, 2, 100);
 }
 
 function draw() {
@@ -63,4 +66,5 @@ function draw() {
       path[x * rows + y].show()
     }
   }
+    player.show();
 }

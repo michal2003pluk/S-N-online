@@ -17,7 +17,7 @@ class Cell {
     rect(this.x, this.y, this.size, this.size);
     textSize(40)
     textAlign(CENTER, CENTER)
-    text(this.num, this.x + this.size / 2, this.y + this.size / 2)
+    text(this.num, this.x + this.size / 2, this.y + this.size / 4)
   }
 
 }

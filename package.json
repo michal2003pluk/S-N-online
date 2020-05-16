@@ -1,0 +1,29 @@
+{
+  "name": "s-n-online",
+  "version": "1.0.0",
+  "description": "Snakes and Ladders, multiplayer",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michal2003pluk/S-N-online.git"
+  },
+  "keywords": [
+    "S-N",
+    "node.js",
+    "sockets",
+    "p5.js"
+  ],
+  "author": "Michal Pluta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michal2003pluk/S-N-online/issues"
+  },
+  "homepage": "https://github.com/michal2003pluk/S-N-online#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

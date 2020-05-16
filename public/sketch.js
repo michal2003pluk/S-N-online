@@ -99,7 +99,7 @@ function setup() {
     }
   }
 }
-
+ 
 function draw() {
   diceRoll.draw(); //Draw button
   for (var x = 0; x < rows; x++) {

@@ -1,34 +1,40 @@
-var rows = 7;
+var rows = 7; //row, column size of grid
 var columns = 7;
-var asc;
 let path = [];
 var diceRoll;
-let player;
+let player1;
+let player2;
+var turn = true
 
 function setup() {
-  createCanvas(800, 800)
-  background(255);
+  createCanvas(800, 800) //Generates canvas
+  background(255); //fills canvas as white
   if (rows % 2 == 1) {
-    asc = true;
-  }
+    var asc = true;
+  } //setup for generating grid
   for (var x = 0; x < rows; x++) {
     if (asc) {
       for (var y = 0; y < columns; y++) {
         var num = (rows - x - 1) * columns + y + 1
-        path[x * rows + y] = new Cell(x, y, 100, num)
+        path[num - 1] = new Cell(x, y, 100, num)
       }
     } else {
       for (var y = 0; y < columns; y++) {
         var num = (rows - x) * columns - y
-        path[x * rows + y] = new Cell(x, y, 100, num)
+        path[num - 1] = new Cell(x, y, 100, num)
       }
-    }
+    } //generating grid
     asc = !asc
   }
 
-  diceRoll = new Clickable();
-  diceRoll.locate(110, 710);
-  diceRoll.resize(480, 80);
+  player1 = new Player(0, 6, 100, -1);
+  player2 = new Player(0, 6, 100, 1); //new Player
+
+  {
+    diceRoll = new Clickable();
+    diceRoll.locate(110, 710);
+    diceRoll.resize(480, 80);
+  } //Creates button
 
   diceRoll.onHover = function() {
     //This function is ran when the clickable is hovered.
@@ -53,18 +59,33 @@ function setup() {
     //This funcion is ran when the cursor was pressed and then
     //released inside the clickable. If it was pressed inside and
     //then released outside this won't work.
-    alert("Dice rolled")
+    //alert("Dice rolled")
+    //console.log(player1.t + ' + ' + roll + ' = ' + (player1.t + roll))
+    var roll = Math.floor(2 * random(1, 6.5));
+    if (turn) {
+      player1.t += roll
+    } else {
+      player2.t += roll
+    }
+    if (player1.t > (rows * columns - 1)) {
+      alert("Player 1 has won!")
+    } else if (player2.t > (rows * columns - 1)) {
+      alert("Player 2 has won!")
+    } else {
+      player1.update(path[player1.t]);
+      player2.update(path[player2.t]);
+      turn = !turn
+    }
   }
-
-  player = new Player(3, 2, 100);
 }
 
 function draw() {
-  diceRoll.draw();
+  diceRoll.draw(); //Draw button
   for (var x = 0; x < rows; x++) {
     for (var y = 0; y < columns; y++) {
-      path[x * rows + y].show()
+      path[x * rows + y].show() //displays grid
     }
   }
-    player.show();
+  player1.show(); //displays players
+  player2.show();
 }

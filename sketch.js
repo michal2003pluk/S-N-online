@@ -27,8 +27,8 @@ function setup() {
     asc = !asc
   }
 
-  player1 = new Player(0, 6, 100, -1);
-  player2 = new Player(0, 6, 100, 1); //new Player
+  player1 = new Player(0, 6, 100, 1);
+  player2 = new Player(0, 6, 100, -1); //new Player
 
   {
     diceRoll = new Clickable();
@@ -59,18 +59,39 @@ function setup() {
     //This funcion is ran when the cursor was pressed and then
     //released inside the clickable. If it was pressed inside and
     //then released outside this won't work.
-    //alert("Dice rolled")
-    //console.log(player1.t + ' + ' + roll + ' = ' + (player1.t + roll))
-    var roll = Math.floor(2 * random(1, 6.5));
-    if (turn) {
-      player1.t += roll
-    } else {
-      player2.t += roll
+    var dice1 = Math.floor(random(1, 7));
+    var dice2 = Math.floor(random(1, 7));
+    var total = dice1 + dice2;
+    //console.log(dice1 + ',' + dice2 + ' = ' + total)
+    if (dice1 === dice2) {
+      total = -total
+      if (turn) {
+        alert("Player 1 has rolled a double and moves " + -total + ' spaces back');
+      } else {
+        alert("Player 2 has rolled a double and moves " + -total + ' spaces back');
+      }
     }
-    if (player1.t > (rows * columns - 1)) {
+
+    if (turn) {
+      player1.t += total
+      if (player1.t < 0) {
+        player1.t = 0
+      }
+    } else {
+      player2.t += total
+      if (player2.t < 0) {
+        player2.t = 0
+      }
+    }
+
+    if (player1.t >= (rows * columns - 1)) {
       alert("Player 1 has won!")
-    } else if (player2.t > (rows * columns - 1)) {
+      player1.t = rows * columns - 1
+      player1.update(path[player1.t]);
+    } else if (player2.t >= (rows * columns - 1)) {
       alert("Player 2 has won!")
+      player2.t = rows * columns - 1
+      player2.update(path[player2.t]);
     } else {
       player1.update(path[player1.t]);
       player2.update(path[player2.t]);

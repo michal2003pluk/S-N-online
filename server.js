@@ -4,37 +4,35 @@ var server = app.listen(3000); //connects to port 3000
 
 app.use(express.static('public')); //hosts files stored in public folder
 
-console.log("Socket server initialised"); //test message
+console.log("Socket server initialised");
 
-var socket = require('socket.io'); //importing library
+var socket = require('socket.io');
 var io = socket(server); //generates a socket for user to connect to
 
 io.sockets.on('connection', newConnection); //checking if there is a new connection
 
 function newConnection(socket) {
-  console.log('new connection: ' + socket.id); //logs the id of the user connected
+	console.log('new connection: ' + socket.id); //logs the id of the user connected
 
-  socket.on('mouse', mouseMsg); //
+	socket.on('mouse', mouseMsg); //
 
-  function mouseMsg(data) {
-    socket.broadcast.emit('mouse', data); //emits the data to all clients except the sender
-    //io.sockets.emit('mouse', data);      //emits data to all clients including the sender
-    //console.log(data);
-  }
+	function mouseMsg(data) {
+		socket.broadcast.emit('mouse', data); //emits the data to all clients except the sender
+		//io.sockets.emit('mouse', data);      //emits data to all clients including the sender
+		//console.log(data);
+	}
 
-  socket.on('inituser', initialise)
+	socket.on('inituser', initialise)
 
-  function initialise(data) {
-    socket.broadcast.emit('inituser', data); //emits the data to all clients except the sender
-    console.log('1');
-  }
+	function initialise(data) {
+		socket.broadcast.emit('inituser', data); //inital transfer of connection
+	}
 
-  socket.on('confirmation', confirm)
+	socket.on('confirmation', confirm)
 
-  function confirm(data) {
-    socket.broadcast.emit('confirm', data); //emits the data to all clients except the sender
-    console.log('2');
-  }
+	function confirm(data) {
+		socket.broadcast.emit('confirm', data); //confirmation after second socket connects
+	}
 
 
 

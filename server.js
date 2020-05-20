@@ -12,14 +12,13 @@ var io = socket(server); //generates a socket for user to connect to
 io.sockets.on('connection', newConnection); //checking if there is a new connection
 
 function newConnection(socket) {
-	console.log('new connection: ' + socket.id); //logs the id of the user connected
+	console.log('New socket connection: ' + socket.id); //logs the id of the user connected
 
-	socket.on('mouse', mouseMsg); //
+	socket.on('turndata', turnMsg); //
 
-	function mouseMsg(data) {
-		socket.broadcast.emit('mouse', data); //emits the data to all clients except the sender
+	function turnMsg(data) {
+		socket.broadcast.emit('turndata', data); //emits the data to all clients except the sender
 		//io.sockets.emit('mouse', data);      //emits data to all clients including the sender
-		//console.log(data);
 	}
 
 	socket.on('inituser', initialise)
@@ -33,7 +32,5 @@ function newConnection(socket) {
 	function confirm(data) {
 		socket.broadcast.emit('confirm', data); //confirmation after second socket connects
 	}
-
-
 
 }

@@ -8,67 +8,16 @@ var socket;
 var user = false;
 var name;
 var gameOver = false;
-
-
-function updateTurn(data) {
-	if (!gameOver) {
-		if (name == 'Player 1') {
-			player2.t = data.updatedPosition;
-			player2.update(path[player2.t]);
-		} else {
-			player1.t = data.updatedPosition;
-			player1.update(path[player1.t]);
-		}
-		turn = !turn
-		if (data.updatedPosition == rows * columns - 1) {
-			gameOver = true;
-			alert(data.winner + ' has won!')
-			turn = false;
-		}
-	}
-}
-
-
-
-
-function init(data) {
-	if (user == true) {
-		turn = false
-		name = 'Player 2'
-		var data = {
-			user: false
-		}
-		socket.emit('confirmation', data)
-	} else {
-		turn = true
-		name = 'Player 1'
-		var data = {
-			user: true
-		}
-		socket.emit('confirmation', data)
-	}
-}
-
-function confirm(data) {
-	if (data.user == false) {
-		turn = true
-		name = 'Player 1'
-	} else {
-		turn = false
-		name = 'Player 2'
-	}
-}
-
-
+let img;
 
 function setup() {
-	createCanvas(700, 800) //Generates canvas
+	createCanvas(703, 800) //Generates canvas
 	background(255); //fills canvas as white
+	img = loadImage('bg.jpg');
 
 	socket = io.connect('http://localhost:3000');
 	socket.on('inituser', init)
 	socket.on('confirm', confirm)
-
 
 	var data = {
 		user: true
@@ -77,7 +26,6 @@ function setup() {
 
 	socket.on('turndata', updateTurn);
 
-	socket.on('gameOver', gameOver);
 
 	if (rows % 2 == 1) {
 		var asc = true;
@@ -155,6 +103,51 @@ function setup() {
 	}
 }
 
+function init(data) {
+	if (user == true) {
+		turn = false
+		name = 'Player 2'
+		var data = {
+			user: false
+		}
+		socket.emit('confirmation', data)
+	} else {
+		turn = true
+		name = 'Player 1'
+		var data = {
+			user: true
+		}
+		socket.emit('confirmation', data)
+	}
+}
+
+function confirm(data) {
+	if (data.user == false) {
+		turn = true
+		name = 'Player 1'
+	} else {
+		turn = false
+		name = 'Player 2'
+	}
+}
+
+function updateTurn(data) {
+	if (!gameOver) {
+		if (name == 'Player 1') {
+			player2.t = data.updatedPosition;
+			player2.update(path[player2.t]);
+		} else {
+			player1.t = data.updatedPosition;
+			player1.update(path[player1.t]);
+		}
+		turn = !turn
+		if (data.updatedPosition == rows * columns - 1) {
+			gameOver = true;
+			alert(data.winner + ' has won!')
+			turn = false;
+		}
+	}
+}
 
 function updatePosition(objectPlayer, total) {
 	objectPlayer.t += total
@@ -187,8 +180,9 @@ function updatePosition(objectPlayer, total) {
 	}
 }
 
-
 function draw() {
+	image(img, 0, 0);
+	img.resize(703, 800);
 	diceRoll.draw(); //Draw button
 	for (var x = 0; x < rows; x++) {
 		for (var y = 0; y < columns; y++) {
